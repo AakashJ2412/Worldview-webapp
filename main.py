@@ -35,7 +35,6 @@ with col1:
     if inputFile is not None:
         uploadedFlag = True
         uploadedImage = PIL.Image.open(inputFile).convert('RGB')
-        print(uploadedImage)
         # background = PIL.Image.new('RGBA', uploadedImage.size, (255, 255, 255))
         # uploadedImage = PIL.Image.alpha_composite(background, uploadedImage)
 
@@ -55,7 +54,7 @@ with col2:
         st.write("Image not uploaded yet")
 
     if doneProcessing:
-        st.image("./Worldview-webapp/results/colored.png", use_column_width=True)
+        st.image("./results/colored.png", use_column_width=True)
 
     if st.button("Reset"):
         uploadedFlag = False

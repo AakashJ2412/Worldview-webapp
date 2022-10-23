@@ -27,7 +27,7 @@ import cv2 as cv
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="torch.nn.functional")
 
-path = Path('./Worldview-webapp/RTK/unzipped')
+path = Path('./RTK/unzipped')
 path.ls()
 
 
@@ -61,7 +61,7 @@ def load_model(model_path):
 
     learn = unet_learner(data, models.resnet34)
 
-    learn.load('stage-1')
+    learn.load('stage-2-weights')
 
     return learn
 
@@ -74,9 +74,8 @@ def predict(model_path,img):
     # print(img)
     imgTensor = T.ToTensor()(img)
     img = Image(imgTensor)
-    print(img)
     prediction = learn.predict(img)
-    prediction[0].save('./Worldview-webapp/results/prediction.png')
+    prediction[0].save('./results/prediction.png')
 
 def colour(frame):
     width = 288
@@ -112,13 +111,12 @@ def colour(frame):
               frame[x, y] = (255,85,0)
  
     frame = cv.cvtColor(frame,cv.COLOR_BGR2RGB)
-    print("Done Prediction")
     # return the colored image
     return frame
 
 def runModel(image):
-  model_path = './Worldview-webapp/RTK/unzipped/images/models/stage-1.pth'
+  model_path = './RTK/unzipped/images/models/stage-2-weights.pth'
   predict(model_path,image)
-  outFrame = cv.imread('./Worldview-webapp/results/prediction.png')
+  outFrame = cv.imread('./results/prediction.png')
   outFrame = colour(outFrame)
-  cv.imwrite('./Worldview-webapp/results/colored.png',outFrame)
+  cv.imwrite('./results/colored.png',outFrame)
