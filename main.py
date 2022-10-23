@@ -17,7 +17,7 @@ from model import *
 
 
 st.title("Worldview Web Application")
-st.markdown("This application allows you to explore the Worldview application, and upload ")
+st.markdown("This application allows you to explore the Worldview application, and upload the image of your choice to see the results of the model.")
 col1, col2 = st.columns(2, gap="large")
 uploadedFlag = False
 uploadedImage = None
@@ -41,23 +41,18 @@ with col1:
         st.image(uploadedImage, use_column_width=True)
         st.write("Image uploaded successfully")
         st.write("Image size: ", uploadedImage.size)
-        st.write("Image format: ", uploadedImage.format)
 
 
 with col2:
     if uploadedImage is not None:
         if st.button("Process Image"):
-            runModel(uploadedImage)
+            with st.spinner(text="In progress..."):
+                runModel(uploadedImage)
+            st.success('Done!')
             doneProcessing = True
 
     if not uploadedFlag:
-        st.write("Image not uploaded yet")
+        st.write("No image uploaded...")
 
     if doneProcessing:
         st.image("./results/colored.png", use_column_width=True)
-
-    if st.button("Reset"):
-        uploadedFlag = False
-        st.experimental_singleton.clear()
-        st.experimental_rerun()
-
